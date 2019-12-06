@@ -56,13 +56,13 @@ void Game::writeTo(OutputStream& stream) const {
 }
 std::string Game::toString() const {
     return std::string("Game") + "(" +
-        std::to_string(currentTick) +
-        properties.toString() +
-        level.toString() +
-        "TODO" + 
-        "TODO" + 
-        "TODO" + 
-        "TODO" + 
-        "TODO" + 
+        std::to_string(currentTick) + "," +
+        properties.toString() + "," +
+        level.toString() + "," +
+        "TODO" + "," +
+        "TODO" + "," +
+        "TODO" + "," +
+        "TODO" + "," +
+        "TODO" +
         ")";
 }

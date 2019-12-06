@@ -75,28 +75,37 @@ void Properties::writeTo(OutputStream& stream) const {
     stream.write(mineTriggerRadius);
     stream.write(killScore);
 }
+static std::string kv(const std::string&k,const std::string&v){return "\""+k+"\":"+v;}
 std::string Properties::toString() const {
-    return std::string("Properties") + "(" +
-        std::to_string(maxTickCount) +
-        std::to_string(teamSize) +
-        std::to_string(ticksPerSecond) +
-        std::to_string(updatesPerTick) +
-        lootBoxSize.toString() +
-        unitSize.toString() +
-        std::to_string(unitMaxHorizontalSpeed) +
-        std::to_string(unitFallSpeed) +
-        std::to_string(unitJumpTime) +
-        std::to_string(unitJumpSpeed) +
-        std::to_string(jumpPadJumpTime) +
-        std::to_string(jumpPadJumpSpeed) +
-        std::to_string(unitMaxHealth) +
-        std::to_string(healthPackHealth) +
-        "TODO" + 
-        mineSize.toString() +
-        mineExplosionParams.toString() +
-        std::to_string(minePrepareTime) +
-        std::to_string(mineTriggerTime) +
-        std::to_string(mineTriggerRadius) +
-        std::to_string(killScore) +
-        ")";
+  std::string wp;
+  std::string t2s[]={"Pistol","AssaultRifle","RocketLauncher"};
+  for(const auto&ex:weaponParams){
+    wp+=kv(t2s[ex.first],ex.second.toString())+",";
+  }
+  wp.pop_back();
+  return "{" +
+    #define F(NAME)kv(#NAME,std::to_string(NAME))
+    #define G(NAME)kv(#NAME,NAME.toString())
+    F(maxTickCount) + "," +
+    F(teamSize) + "," +
+    F(ticksPerSecond) + "," +
+    F(updatesPerTick) + "," +
+    G(lootBoxSize) + "," +
+    G(unitSize) + "," +
+    F(unitMaxHorizontalSpeed) + "," +
+    F(unitFallSpeed) + "," +
+    F(unitJumpTime) + "," +
+    F(unitJumpSpeed) + "," +
+    F(jumpPadJumpTime) + "," +
+    F(jumpPadJumpSpeed) + "," +
+    F(unitMaxHealth) + "," +
+    F(healthPackHealth) + "," +
+    kv("weapon_params","{"+wp+"}") + "," +
+    G(mineSize) + "," +
+    G(mineExplosionParams) + "," +
+    F(minePrepareTime) + "," +
+    F(mineTriggerTime) + "," +
+    F(mineTriggerRadius) + "," +
+    F(killScore) +
+  "}";
 }

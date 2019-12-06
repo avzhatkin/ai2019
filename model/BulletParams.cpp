@@ -14,10 +14,13 @@ void BulletParams::writeTo(OutputStream& stream) const {
     stream.write(size);
     stream.write(damage);
 }
+static std::string kv(const std::string&k,const std::string&v){return "\""+k+"\":"+v;}
 std::string BulletParams::toString() const {
-    return std::string("BulletParams") + "(" +
-        std::to_string(speed) +
-        std::to_string(size) +
-        std::to_string(damage) +
-        ")";
+  #define F(NAME)kv(#NAME,std::to_string(NAME))
+  #define G(NAME)kv(#NAME,NAME.toString())
+  return "{"+
+    F(speed) + "," +
+    F(size) + "," +
+    F(damage) +
+  "}";
 }

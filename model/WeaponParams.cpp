@@ -35,17 +35,21 @@ void WeaponParams::writeTo(OutputStream& stream) const {
         stream.write(true);
         (*explosion).writeTo(stream);
     }
+
 }
+static std::string kv(const std::string&k,const std::string&v){return "\""+k+"\":"+v;}
 std::string WeaponParams::toString() const {
-    return std::string("WeaponParams") + "(" +
-        std::to_string(magazineSize) +
-        std::to_string(fireRate) +
-        std::to_string(reloadTime) +
-        std::to_string(minSpread) +
-        std::to_string(maxSpread) +
-        std::to_string(recoil) +
-        std::to_string(aimSpeed) +
-        bullet.toString() +
-        "TODO" + 
-        ")";
+  #define F(NAME)kv(#NAME,std::to_string(NAME))
+  #define G(NAME)kv(#NAME,NAME.toString())
+  return "{"+
+    F(magazineSize) + "," +
+    F(fireRate) + "," +
+    F(reloadTime) + "," +
+    F(minSpread) + "," +
+    F(maxSpread) + "," +
+    F(recoil) + "," +
+    F(aimSpeed) + "," +
+    G(bullet) + "," +
+    kv("explosion",explosion?explosion->toString():"null") +
+  "}";
 }

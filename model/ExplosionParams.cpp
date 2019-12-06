@@ -12,9 +12,12 @@ void ExplosionParams::writeTo(OutputStream& stream) const {
     stream.write(radius);
     stream.write(damage);
 }
+static std::string kv(const std::string&k,const std::string&v){return "\""+k+"\":"+v;}
 std::string ExplosionParams::toString() const {
-    return std::string("ExplosionParams") + "(" +
-        std::to_string(radius) +
-        std::to_string(damage) +
-        ")";
+  #define F(NAME)kv(#NAME,std::to_string(NAME))
+  #define G(NAME)kv(#NAME,NAME.toString())
+  return "{" +
+    F(radius) + "," +
+    F(damage) +
+  "}";
 }
